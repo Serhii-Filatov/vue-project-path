@@ -18,7 +18,7 @@
       "taskCount": 10,
       "completedTaskCount": 5,
       "createdAt": "2024-01-20T11:30:00Z",
-      "updatedAt": "2024-02-05T13:20:00Z"
+      "updatedAt": "2025-08-28T15:54:33.141Z"
     },
     {
       "id": "3",
@@ -49,6 +49,26 @@
       "completedTaskCount": 10,
       "createdAt": "2024-02-10T12:00:00Z",
       "updatedAt": "2024-02-18T15:25:00Z"
+    },
+    {
+      "id": "6",
+      "name": "Новый проект",
+      "description": "Описание проекта",
+      "status": "active",
+      "taskCount": 0,
+      "completedTaskCount": 0,
+      "createdAt": "2025-08-28T14:52:24.984Z",
+      "updatedAt": "2025-08-28T15:58:19.032Z"
+    },
+    {
+      "id": "7",
+      "name": "Новый проект 2",
+      "description": "Описание проекта 2",
+      "status": "active",
+      "taskCount": 0,
+      "completedTaskCount": 0,
+      "createdAt": "2025-08-28T15:56:46.487Z",
+      "updatedAt": "2025-08-28T15:56:46.487Z"
     }
   ],
   "tasks": [
@@ -58,10 +78,10 @@
       "title": "Створення структури проекту",
       "description": "Ініціалізація React додатку з TypeScript та налаштування інструментів збірки",
       "assignee": "Олександр Петренко",
-      "status": "done",
+      "status": "in_progress",
       "dueDate": "2024-01-25T00:00:00Z",
       "createdAt": "2024-01-15T10:00:00Z",
-      "updatedAt": "2024-01-18T14:30:00Z",
+      "updatedAt": "2025-08-28T14:05:18.716Z",
       "order": 1
     },
     {
@@ -73,7 +93,7 @@
       "status": "done",
       "dueDate": "2024-01-28T00:00:00Z",
       "createdAt": "2024-01-16T11:00:00Z",
-      "updatedAt": "2024-01-26T15:30:00Z",
+      "updatedAt": "2025-08-28T13:52:17.143Z",
       "order": 2
     },
     {
@@ -94,10 +114,10 @@
       "title": "Мобільна версія каталогу",
       "description": "Адаптація каталогу товарів під мобільні пристрої з responsive дизайном",
       "assignee": "Анна Шевченко",
-      "status": "in_progress",
+      "status": "to_do",
       "dueDate": "2024-02-05T00:00:00Z",
       "createdAt": "2024-01-18T14:00:00Z",
-      "updatedAt": "2024-02-01T10:20:00Z",
+      "updatedAt": "2025-08-28T14:04:41.704Z",
       "order": 4
     },
     {
@@ -106,10 +126,10 @@
       "title": "Тестування функціоналу кошика",
       "description": "Написання автоматизованих тестів для функціоналу додавання/видалення товарів з кошика",
       "assignee": "Сергій Мельник",
-      "status": "in_progress",
+      "status": "to_do",
       "dueDate": "2024-02-08T00:00:00Z",
       "createdAt": "2024-01-19T16:30:00Z",
-      "updatedAt": "2024-02-03T12:15:00Z",
+      "updatedAt": "2025-08-28T13:52:08.096Z",
       "order": 5
     },
     {
@@ -118,10 +138,10 @@
       "title": "Налаштування CI/CD",
       "description": "Конфігурація Jenkins для автоматичного деплою та тестування",
       "assignee": "Володимир Бондаренко",
-      "status": "in_progress",
+      "status": "done",
       "dueDate": "2024-02-10T00:00:00Z",
       "createdAt": "2024-01-20T08:45:00Z",
-      "updatedAt": "2024-02-05T14:30:00Z",
+      "updatedAt": "2025-08-28T14:51:43.250Z",
       "order": 6
     },
     {
@@ -133,7 +153,7 @@
       "status": "to_do",
       "dueDate": "2024-02-12T00:00:00Z",
       "createdAt": "2024-01-21T11:20:00Z",
-      "updatedAt": "2024-01-21T11:20:00Z",
+      "updatedAt": "2025-08-28T14:58:01.779Z",
       "order": 7
     },
     {
@@ -142,10 +162,10 @@
       "title": "Оптимізація завантаження сторінок",
       "description": "Впровадження lazy loading та оптимізація bundle size для покращення продуктивності",
       "assignee": "Олександр Петренко",
-      "status": "to_do",
+      "status": "in_progress",
       "dueDate": "2024-02-15T00:00:00Z",
       "createdAt": "2024-01-22T13:10:00Z",
-      "updatedAt": "2024-01-22T13:10:00Z",
+      "updatedAt": "2025-08-28T14:51:55.448Z",
       "order": 8
     },
     {
@@ -358,10 +378,10 @@
       "title": "Інфраструктура для банкінгу",
       "description": "Налаштування безпечної хмарної інфраструктури з високою доступністю",
       "assignee": "Володимир Бондаренко",
-      "status": "to_do",
+      "status": "in_progress",
       "dueDate": "2024-02-20T00:00:00Z",
       "createdAt": "2024-02-06T08:30:00Z",
-      "updatedAt": "2024-02-06T08:30:00Z",
+      "updatedAt": "2025-08-28T13:53:03.782Z",
       "order": 26
     },
     {
@@ -370,10 +390,10 @@
       "title": "Дизайн головного екрану",
       "description": "Створення інтуїтивного дизайну для відображення балансу та швидких дій",
       "assignee": "Марія Коваленко",
-      "status": "to_do",
+      "status": "done",
       "dueDate": "2024-02-22T00:00:00Z",
       "createdAt": "2024-02-07T12:15:00Z",
-      "updatedAt": "2024-02-07T12:15:00Z",
+      "updatedAt": "2025-08-28T15:59:48.099Z",
       "order": 27
     },
     {
@@ -385,7 +405,7 @@
       "status": "to_do",
       "dueDate": "2024-02-25T00:00:00Z",
       "createdAt": "2024-02-08T14:40:00Z",
-      "updatedAt": "2024-02-08T14:40:00Z",
+      "updatedAt": "2025-08-28T20:55:47.573Z",
       "order": 28
     },
     {
@@ -397,7 +417,7 @@
       "status": "to_do",
       "dueDate": "2024-02-28T00:00:00Z",
       "createdAt": "2024-02-09T16:55:00Z",
-      "updatedAt": "2024-02-09T16:55:00Z",
+      "updatedAt": "2025-08-28T20:55:49.019Z",
       "order": 29
     },
     {
@@ -591,6 +611,30 @@
       "createdAt": "2024-02-20T13:05:00Z",
       "updatedAt": "2024-02-20T13:05:00Z",
       "order": 45
+    },
+    {
+      "id": "46",
+      "projectId": "1",
+      "title": "ыва",
+      "description": "фып",
+      "assignee": "фыва",
+      "status": "to_do",
+      "dueDate": "2025-08-06",
+      "createdAt": "2025-08-28T15:23:11.764Z",
+      "updatedAt": "2025-08-28T15:23:11.764Z",
+      "order": 6
+    },
+    {
+      "id": "47",
+      "projectId": "6",
+      "title": "Задача 1",
+      "description": "Описание задачи 1",
+      "assignee": "Вася пряник",
+      "status": "to_do",
+      "dueDate": "2025-12-10",
+      "createdAt": "2025-08-28T15:59:18.320Z",
+      "updatedAt": "2025-08-28T15:59:32.060Z",
+      "order": 1
     }
   ]
 }
