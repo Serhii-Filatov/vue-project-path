@@ -48,6 +48,7 @@ defineEmits<{
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .base-input {
   display: flex;
   flex-direction: column;
@@ -65,35 +66,32 @@ defineEmits<{
 
   &__field {
     padding: 0.75rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid v.$color-border;
     border-radius: 0.375rem;
     font-size: 1rem;
     transition: border-color 0.2s ease-in-out;
 
     &:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      @include v.focus-ring(v.$color-primary, 0.1);
     }
 
     &:disabled {
-      background-color: #f9fafb;
+      background-color: v.$color-surface-muted;
       cursor: not-allowed;
     }
 
     &--error {
-      border-color: #ef4444;
+      border-color: v.$color-danger;
 
       &:focus {
-        border-color: #ef4444;
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        @include v.focus-ring(v.$color-danger, 0.1);
       }
     }
   }
 
   &__error {
     font-size: 0.75rem;
-    color: #ef4444;
+    color: v.$color-danger;
   }
 }
 </style>

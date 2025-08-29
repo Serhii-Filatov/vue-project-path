@@ -36,6 +36,7 @@ defineEmits<{
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .base-button {
   display: inline-flex;
   align-items: center;
@@ -78,38 +79,38 @@ defineEmits<{
   }
 
   &--primary {
-    background-color: #3b82f6;
-    color: white;
+    background-color: v.$color-primary;
+    color: v.$color-surface;
 
     &:hover:not(:disabled) {
-      background-color: #2563eb;
+      background-color: v.$color-primary-hover;
     }
   }
 
   &--secondary {
-    background-color: #6b7280;
-    color: white;
+    background-color: v.$color-secondary;
+    color: v.$color-surface;
 
     &:hover:not(:disabled) {
-      background-color: #4b5563;
+      background-color: v.$color-secondary-hover;
     }
   }
 
   &--danger {
-    background-color: #ef4444;
-    color: white;
+    background-color: v.$color-danger;
+    color: v.$color-surface;
 
     &:hover:not(:disabled) {
-      background-color: #dc2626;
+      background-color: v.$color-danger-hover;
     }
   }
 
   &--success {
-    background-color: #10b981;
-    color: white;
+    background-color: v.$color-success;
+    color: v.$color-surface;
 
     &:hover:not(:disabled) {
-      background-color: #059669;
+      background-color: v.$color-success-hover;
     }
   }
 

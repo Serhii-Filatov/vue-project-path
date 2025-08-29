@@ -3,7 +3,7 @@
     <Transition name="modal">
       <div v-if="modelValue" class="modal-overlay" @click="handleOverlayClick">
         <div class="modal-container" @click.stop>
-          <div class="modal-header">
+          <div class="modal-header" :class="{ 'modal-header--dense': denseHeader }">
             <h2 class="modal-title">{{ title }}</h2>
             <button class="modal-close" @click="$emit('update:modelValue', false)">
               <svg
@@ -36,10 +36,12 @@ interface Props {
   modelValue: boolean
   title: string
   closeOnOverlay?: boolean
+  denseHeader?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   closeOnOverlay: true,
+  denseHeader: false,
 })
 
 const emit = defineEmits<{
@@ -54,6 +56,7 @@ const handleOverlayClick = () => {
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -69,7 +72,7 @@ const handleOverlayClick = () => {
 }
 
 .modal-container {
-  background: white;
+  background: v.$color-surface;
   border-radius: 0.5rem;
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -90,11 +93,19 @@ const handleOverlayClick = () => {
   border-bottom: 1px solid #e5e7eb;
 }
 
+.modal-header--dense {
+  padding: 0.75rem;
+}
+
 .modal-title {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
+  color: v.$color-text;
+}
+
+.modal-header--dense .modal-title {
+  font-size: 1rem;
 }
 
 .modal-close {

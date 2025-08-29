@@ -51,10 +51,11 @@ const internalValue = computed({
   </select>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .base-select {
   width: 100%;
-  border: 1px solid #d1d5db;
+  border: 1px solid v.$color-border;
   border-radius: 0.375rem;
   background: #fff;
   cursor: pointer;
@@ -82,7 +83,7 @@ const internalValue = computed({
 
 .base-select:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: v.$color-primary;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
