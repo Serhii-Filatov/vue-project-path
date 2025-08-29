@@ -197,6 +197,7 @@ const handleCreateProject = async (projectData: { name: string; description: str
 </template>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .projects-page {
   padding: 2rem;
   max-width: 1440px;
@@ -222,13 +223,13 @@ const handleCreateProject = async (projectData: { name: string; description: str
 .page-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #111827;
+  color: v.$color-text;
   margin: 0 0 0.5rem 0;
 }
 
 .page-description {
   font-size: 1.125rem;
-  color: #6b7280;
+  color: v.$color-text-light;
   margin: 0;
 }
 
@@ -240,7 +241,7 @@ const handleCreateProject = async (projectData: { name: string; description: str
 }
 
 .stat-card {
-  background: white;
+  background: v.$color-surface;
   border-radius: 0.75rem;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -258,7 +259,7 @@ const handleCreateProject = async (projectData: { name: string; description: str
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6b7280;
+  color: v.$color-text-light;
 }
 
 .stat-content {
@@ -268,13 +269,13 @@ const handleCreateProject = async (projectData: { name: string; description: str
 .stat-value {
   font-size: 2rem;
   font-weight: 700;
-  color: #111827;
+  color: v.$color-text;
   margin: 0 0 0.25rem 0;
 }
 
 .stat-label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: v.$color-text-light;
   margin: 0;
 }
 
@@ -361,20 +362,5 @@ const handleCreateProject = async (projectData: { name: string; description: str
   .stat-value {
     font-size: 1.5rem;
   }
-}
-
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1em;
-  padding-right: 2.25rem;
-}
-select::-ms-expand {
-  display: none;
 }
 </style>
