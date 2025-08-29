@@ -6,7 +6,6 @@ export interface Project {
   description: string
   status: ProjectStatus
   taskCount: number
-  completedTaskCount: number
   createdAt: string
   updatedAt: string
 }
