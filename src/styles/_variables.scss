@@ -1,0 +1,52 @@
+// Color palette
+$color-primary: #3b82f6;
+$color-primary-hover: #2563eb;
+
+$color-secondary: #6b7280;
+$color-secondary-hover: #4b5563;
+
+$color-danger: #ef4444;
+$color-danger-hover: #dc2626;
+
+$color-success: #10b981;
+$color-success-hover: #059669;
+
+$color-text: #111827;
+$color-text-light: #6b7280;
+
+$color-border: #d1d5db;
+$color-divider-light: #f3f4f6;
+$color-surface: #ffffff;
+$color-surface-muted: #f9fafb;
+
+// Status badges
+$status-active-bg: #dbeafe;
+$status-active-fg: #1d4ed8;
+
+$status-completed-bg: #d1fae5;
+$status-completed-fg: #065f46;
+
+$status-onhold-bg: #fef3c7;
+$status-onhold-fg: #92400e;
+
+$status-cancelled-bg: #fee2e2;
+$status-cancelled-fg: #991b1b;
+
+$status-archived-bg: #f3f4f6;
+$status-archived-fg: #374151;
+
+// Spacing scale
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-6: 1.5rem;
+$radius-sm: 0.375rem;
+$radius-md: 0.5rem;
+
+// Focus shadow helpers
+@mixin focus-ring($color, $alpha: 0.1) {
+  outline: none;
+  border-color: $color;
+  box-shadow: 0 0 0 3px rgba($color, $alpha);
+}

@@ -1,4 +1,7 @@
 // Reset and base styles
+@use './_reset';
+@use './_normalize';
+@use './_variables' as v;
 * {
   box-sizing: border-box;
 }
@@ -16,8 +19,8 @@ body {
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: v.$color-surface-muted;
+  color: v.$color-text;
 }
 
 // Typography
@@ -75,7 +78,7 @@ select {
 }
 
 *:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid v.$color-primary;
   outline-offset: 2px;
 }
 
@@ -113,7 +116,7 @@ select {
 
 // App header styles
 header {
-  background: white;
+  background: v.$color-surface;
   border-bottom: 1px solid #e5e7eb;
   padding: 1rem 0; // vertical padding only; horizontal via container
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -129,7 +132,7 @@ header {
     h1 {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #111827;
+      color: v.$color-text;
       margin: 0;
     }
   }
@@ -184,8 +187,8 @@ header {
   width: 20px;
   height: 20px;
   margin: -10px 0 0 -10px;
-  border: 2px solid #f3f4f6;
-  border-top: 2px solid #3b82f6;
+  border: 2px solid v.$color-divider-light;
+  border-top: 2px solid v.$color-primary;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -198,26 +201,26 @@ header {
 
 // Status colors
 .status-active {
-  color: #1d4ed8;
-  background: #dbeafe;
+  color: v.$status-active-fg;
+  background: v.$status-active-bg;
 }
 
 .status-completed {
-  color: #065f46;
-  background: #d1fae5;
+  color: v.$status-completed-fg;
+  background: v.$status-completed-bg;
 }
 
 .status-on-hold {
-  color: #92400e;
-  background: #fef3c7;
+  color: v.$status-onhold-fg;
+  background: v.$status-onhold-bg;
 }
 
 .status-cancelled {
-  color: #991b1b;
-  background: #fee2e2;
+  color: v.$status-cancelled-fg;
+  background: v.$status-cancelled-bg;
 }
 
 .status-archived {
-  color: #374151;
-  background: #f3f4f6;
+  color: v.$status-archived-fg;
+  background: v.$status-archived-bg;
 }
