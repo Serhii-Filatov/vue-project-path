@@ -11,16 +11,12 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">
-        Опис проекту
-        <span class="required">*</span>
-      </label>
+      <label class="form-label">Опис проекту</label>
       <textarea
         v-model="form.description"
         class="form-textarea"
         placeholder="Введіть опис проекту"
         rows="4"
-        required
         :class="{ 'form-textarea--error': errors.description }"
       ></textarea>
       <span v-if="errors.description" class="form-error">{{ errors.description }}</span>
@@ -39,7 +35,7 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue'
-import type { Project } from '@/types/project'
+import type { Project, CreateProjectRequest } from '@/types/project'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
@@ -53,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  submit: [data: { name: string; description: string }]
+  submit: [data: CreateProjectRequest]
   cancel: []
 }>()
 
@@ -80,16 +76,9 @@ const validateForm = () => {
     errors.name = "Назва проекту обов'язкова"
     isValid = false
   }
-
-  if (!form.description.trim()) {
-    errors.description = "Опис проекту обов'язковий"
-    isValid = false
-  }
-
   return isValid
 }
 
-// Submit handler
 const handleSubmit = () => {
   if (validateForm()) {
     emit('submit', {
@@ -101,6 +90,7 @@ const handleSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .project-form {
   display: flex;
   flex-direction: column;
@@ -119,13 +109,9 @@ const handleSubmit = () => {
   color: #374151;
 }
 
-.required {
-  color: #ef4444;
-}
-
 .form-textarea {
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid v.$color-border;
   border-radius: 0.375rem;
   font-size: 1rem;
   font-family: inherit;
@@ -133,24 +119,21 @@ const handleSubmit = () => {
   transition: border-color 0.2s ease-in-out;
 
   &:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    @include v.focus-ring(v.$color-primary, 0.1);
   }
 
   &--error {
-    border-color: #ef4444;
+    border-color: v.$color-danger;
 
     &:focus {
-      border-color: #ef4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      @include v.focus-ring(v.$color-danger, 0.1);
     }
   }
 }
 
 .form-error {
   font-size: 0.75rem;
-  color: #ef4444;
+  color: v.$color-danger;
 }
 
 .form-actions {
