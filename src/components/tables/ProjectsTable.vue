@@ -60,25 +60,86 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="project in sortedAndFilteredProjects"
-            :key="project.id"
-            class="table-row"
-            @click="handleRowClick(project)"
-          >
-            <td>{{ project.id }}</td>
-            <td>{{ project.name }}</td>
-            <td>{{ project.taskCount }}</td>
-            <td>
+          <tr v-for="project in sortedAndFilteredProjects" :key="project.id" class="table-row">
+            <td @click="handleRowClick(project)">{{ project.id }}</td>
+            <td @click="handleRowClick(project)">{{ project.name }}</td>
+            <td @click="handleRowClick(project)">{{ project.taskCount }}</td>
+            <td @click="handleRowClick(project)">
               <span :class="['status-badge', `status-badge--${project.status}`]">
                 {{ getStatusLabel(project.status) }}
               </span>
             </td>
-            <td>{{ formatDate(project.createdAt) }}</td>
+            <td @click="handleRowClick(project)">{{ formatDate(project.createdAt) }}</td>
+            <td class="actions-cell">
+              <div class="action-buttons">
+                <button class="action-button" @click="openEditModal(project)" title="Редагувати">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <button class="action-button" @click="openDeleteModal(project)" title="Видалити">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <!-- Edit Modal -->
+    <AppModal
+      :model-value="showEditModal"
+      title="Редагувати проект"
+      @update:model-value="showEditModal = false"
+    >
+      <ProjectForm
+        :project="selectedProject || undefined"
+        :loading="projectsStore.loading"
+        @submit="handleEditProject"
+        @cancel="showEditModal = false"
+      />
+    </AppModal>
+
+    <!-- Delete Modal -->
+    <AppModal
+      :model-value="showDeleteModal"
+      title="Видалити проект"
+      :dense-header="true"
+      @update:model-value="showDeleteModal = false"
+    >
+      <div class="delete-confirmation">
+        <p>Ви впевнені, що хочете видалити проект "{{ selectedProject?.name }}"?</p>
+        <div class="modal-actions">
+          <BaseButton variant="secondary" @click="showDeleteModal = false"> Скасувати </BaseButton>
+          <BaseButton
+            variant="danger"
+            :loading="projectsStore.loading"
+            @click="handleDeleteProject"
+          >
+            Видалити
+          </BaseButton>
+        </div>
+      </div>
+    </AppModal>
   </div>
 </template>
 
@@ -86,7 +147,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useProjectsStore } from '@/stores/projectsStore'
-import type { Project, TableColumn, SortConfig } from '@/types/project'
+import type { Project, TableColumn } from '@/types/project'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import AppModal from '@/components/ui/AppModal.vue'
@@ -97,7 +158,9 @@ const router = useRouter()
 const projectsStore = useProjectsStore()
 
 // State
-const showCreateModal = ref(false)
+const showEditModal = ref(false)
+const showDeleteModal = ref(false)
+const selectedProject = ref<Project | null>(null)
 const nameFilter = ref('')
 const statusFilter = ref('')
 const resizing = ref(false)
@@ -112,6 +175,7 @@ const columns: TableColumn[] = [
   { key: 'taskCount', label: 'Кількість завдань', sortable: true, width: 150, minWidth: 120 },
   { key: 'status', label: 'Статус', sortable: true, width: 150, minWidth: 120 },
   { key: 'createdAt', label: 'Дата створення', sortable: true, width: 200, minWidth: 150 },
+  { key: 'actions', label: 'Дії', sortable: false, width: 100, minWidth: 100 },
 ]
 
 // Computed
@@ -141,12 +205,35 @@ const handleRowClick = (project: Project) => {
   router.push(`/projects/${project.id}`)
 }
 
-const handleCreateProject = async (projectData: { name: string; description: string }) => {
+const openEditModal = (project: Project) => {
+  selectedProject.value = project
+  showEditModal.value = true
+}
+
+const openDeleteModal = (project: Project) => {
+  selectedProject.value = project
+  showDeleteModal.value = true
+}
+
+const handleEditProject = async (projectData: { name: string; description: string }) => {
+  if (!selectedProject.value) return
+
   try {
-    await projectsStore.createProject(projectData)
-    showCreateModal.value = false
+    await projectsStore.updateProject(selectedProject.value.id, projectData)
+    showEditModal.value = false
   } catch (error) {
-    console.error('Error creating project:', error)
+    console.error('Error updating project:', error)
+  }
+}
+
+const handleDeleteProject = async () => {
+  if (!selectedProject.value) return
+
+  try {
+    await projectsStore.deleteProject(selectedProject.value.id)
+    showDeleteModal.value = false
+  } catch (error) {
+    console.error('Error deleting project:', error)
   }
 }
 
@@ -206,6 +293,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .projects-table {
   display: flex;
   flex-direction: column;
@@ -217,7 +305,7 @@ onMounted(() => {
   gap: 1rem;
   align-items: center;
   padding: 1rem;
-  background: white;
+  background: v.$color-surface;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -227,24 +315,8 @@ onMounted(() => {
   max-width: 300px;
 }
 
-.filter-select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  font-size: 1rem;
-  background: white;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-}
-
 .table-container {
-  background: white;
+  background: v.$color-surface;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -256,7 +328,7 @@ onMounted(() => {
 }
 
 .table-header {
-  background: #f9fafb;
+  background: v.$color-surface-muted;
   border-bottom: 1px solid #e5e7eb;
   padding: 0;
   position: relative;
@@ -300,7 +372,7 @@ onMounted(() => {
   cursor: col-resize;
 
   &:hover {
-    background: #3b82f6;
+    background: v.$color-primary;
   }
 }
 
@@ -310,7 +382,7 @@ onMounted(() => {
   transition: background-color 0.2s ease;
 
   &:hover {
-    background: #f9fafb;
+    background: v.$color-surface-muted;
   }
 
   td {
@@ -328,39 +400,71 @@ onMounted(() => {
   text-transform: uppercase;
 
   &--active {
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: v.$status-active-bg;
+    color: v.$status-active-fg;
   }
 
   &--completed {
-    background: #d1fae5;
-    color: #065f46;
+    background: v.$status-completed-bg;
+    color: v.$status-completed-fg;
   }
 
   &--on-hold {
-    background: #fef3c7;
-    color: #92400e;
+    background: v.$status-onhold-bg;
+    color: v.$status-onhold-fg;
   }
 
   &--cancelled {
-    background: #fee2e2;
-    color: #991b1b;
+    background: v.$status-cancelled-bg;
+    color: v.$status-cancelled-fg;
   }
 
   &--archived {
-    background: #f3f4f6;
-    color: #374151;
+    background: v.$status-archived-bg;
+    color: v.$status-archived-fg;
   }
 }
 
-.table-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.actions-cell {
+  padding: 8px !important;
 }
 
-/* status-badge colors already defined below */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--vt-c-text-2);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: var(--vt-c-text-1);
+    background: var(--vt-c-divider-light);
+  }
+}
+
+.delete-confirmation {
+  padding: 16px;
+  text-align: center;
+
+  p {
+    margin-bottom: 24px;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
 </style>
