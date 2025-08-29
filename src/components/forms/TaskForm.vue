@@ -28,13 +28,38 @@
 
     <div class="form-row">
       <div class="form-group">
-        <BaseInput
-          v-model="form.assignee"
-          label="Виконавець"
-          placeholder="Введіть ім'я виконавця"
-          required
-          :error="errors.assignee"
-        />
+        <template v-if="availableAssignees.length > 0 && !useCustomAssignee">
+          <label class="form-label">
+            Виконавець
+            <span class="required">*</span>
+          </label>
+          <BaseSelect
+            :model-value="form.assignee"
+            :options="availableAssignees.map((a) => ({ value: a, label: a }))"
+            required
+            @update:modelValue="(v: string) => (form.assignee = v)"
+          />
+          <button type="button" class="assignee-toggle" @click="useCustomAssignee = true">
+            Додати нового виконавця
+          </button>
+        </template>
+        <template v-else>
+          <BaseInput
+            v-model="form.assignee"
+            label="Виконавець"
+            placeholder="Введіть ім'я виконавця"
+            required
+            :error="errors.assignee"
+          />
+          <button
+            v-if="availableAssignees.length > 0"
+            type="button"
+            class="assignee-toggle"
+            @click="useCustomAssignee = false"
+          >
+            Обрати з існуючих
+          </button>
+        </template>
         <span v-if="errors.assignee" class="form-error">{{ errors.assignee }}</span>
       </div>
 
@@ -79,11 +104,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue'
-import type { Task, TaskStatus } from '@/types/task'
+import { reactive, computed, ref, watch } from 'vue'
+import type { Task, TaskStatus, CreateTaskRequest } from '@/types/task'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseSelect from '@/components/ui/BaseSelect.vue'
+import { useTasksStore } from '@/stores/tasksStore'
 
 interface Props {
   projectId: string
@@ -96,16 +122,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  submit: [
-    data: {
-      projectId: string
-      title: string
-      description: string
-      assignee: string
-      status: TaskStatus
-      dueDate: string
-    },
-  ]
+  submit: [data: CreateTaskRequest]
   cancel: []
 }>()
 
@@ -127,6 +144,18 @@ const errors = reactive({
 })
 
 const isEditing = computed(() => !!props.task)
+
+// Assignees for current project (if any). If none -> free text input
+const tasksStore = useTasksStore()
+const availableAssignees = computed(() => tasksStore.assignees)
+
+// Allow choosing from list or entering a new name
+const useCustomAssignee = ref(availableAssignees.value.length === 0)
+watch(availableAssignees, (list) => {
+  if (!list || list.length === 0) {
+    useCustomAssignee.value = true
+  }
+})
 
 // Validation
 const validateForm = () => {
@@ -181,6 +210,7 @@ const handleSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
+@use '@/styles/_variables.scss' as v;
 .task-form {
   display: flex;
   flex-direction: column;
@@ -206,12 +236,12 @@ const handleSubmit = () => {
 }
 
 .required {
-  color: #ef4444;
+  color: v.$color-danger;
 }
 
 .form-textarea {
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid v.$color-border;
   border-radius: 0.375rem;
   font-size: 1rem;
   font-family: inherit;
@@ -219,49 +249,21 @@ const handleSubmit = () => {
   transition: border-color 0.2s ease-in-out;
 
   &:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    @include v.focus-ring(v.$color-primary, 0.1);
   }
 
   &--error {
-    border-color: #ef4444;
+    border-color: v.$color-danger;
 
     &:focus {
-      border-color: #ef4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-    }
-  }
-}
-
-.form-select {
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  font-size: 1rem;
-  background: white;
-  cursor: pointer;
-  transition: border-color 0.2s ease-in-out;
-
-  &:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-
-  &--error {
-    border-color: #ef4444;
-
-    &:focus {
-      border-color: #ef4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      @include v.focus-ring(v.$color-danger, 0.1);
     }
   }
 }
 
 .form-error {
   font-size: 0.75rem;
-  color: #ef4444;
+  color: v.$color-danger;
 }
 
 .form-actions {
@@ -269,5 +271,15 @@ const handleSubmit = () => {
   gap: 0.75rem;
   justify-content: flex-end;
   margin-top: 1rem;
+}
+
+.assignee-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #3b82f6;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  align-self: flex-start;
 }
 </style>
