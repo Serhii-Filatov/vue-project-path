@@ -2,21 +2,17 @@ import api from './axios'
 import type { Project, CreateProjectRequest } from '@/types/project'
 
 export const projectsApi = {
-  // Отримати всі проекти
   async getProjects(): Promise<Project[]> {
     const response = await api.get('/projects')
     return response.data
   },
 
-  // Отримати проект за ID
   async getProject(id: string): Promise<Project> {
     const response = await api.get(`/projects/${id}`)
     return response.data
   },
 
-  // Створити новий проект
   async createProject(project: CreateProjectRequest): Promise<Project> {
-    // Отримуємо існуючі проекти, щоб згенерувати короткий послідовний ID
     const existing = await this.getProjects()
     const numericShortIds = existing
       .map((p) => String(p.id))
@@ -40,7 +36,6 @@ export const projectsApi = {
     return response.data
   },
 
-  // Оновити проект
   async updateProject(id: string, project: Partial<Project>): Promise<Project> {
     const response = await api.patch(`/projects/${id}`, {
       ...project,
@@ -49,7 +44,6 @@ export const projectsApi = {
     return response.data
   },
 
-  // Видалити проект
   async deleteProject(id: string): Promise<void> {
     await api.delete(`/projects/${id}`)
   },
